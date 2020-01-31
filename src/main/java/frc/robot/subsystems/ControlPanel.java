@@ -16,10 +16,15 @@ public class ControlPanel {
     
     private ColorSensorV3 colorSensor;
     
-    private final RawColor blue = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor green = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor red = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor yellow = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor BLUE = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor GREEN = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor RED = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor YELLOW = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    
+    enum PossibleColor
+    { 
+        BLUE, GREEN, RED, YELLOW; 
+    } 
 
     public ControlPanel() {
         motor1 = new WPI_TalonSRX(10);
@@ -33,20 +38,20 @@ public class ControlPanel {
         return colorSensor.getRawColor();
     }
     
-    //Return target RawColor sent by FMS
-    private RawColor getIntendedColor() {
+    //Return target PossibleColor sent by FMS
+    private PossibleColor getIntendedColor() {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(gameData.length() > 0) {
             switch (gameData.charAt(0)) {
                 case 'B' :
-                    return 
+                    return PossibleColor.BLUE;
                 case 'G' :
-                    return
+                    return PossibleColor.GREEN;
                 case 'R' :
-                    return
+                    return PossibleColor.RED;
                 case 'Y' :
-                    return
+                    return PossibleColor.YELLOW;
                 default :
                     System.out.println("Error: Corrupt data received");
                     break;
@@ -55,5 +60,15 @@ public class ControlPanel {
         else {
             System.out.println("No data received");
         }
+    }
+    
+    //Returns closest PossibleColor
+    private PossibleColor findCloseColor() {
+        
+    }
+    
+    //Returns difference in raw color value
+    private int colorDifference() {
+        
     }
 }
