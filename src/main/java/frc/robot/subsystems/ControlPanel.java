@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorSensorV3.RawColor;
 
 public class ControlPanel {
     
@@ -22,11 +23,11 @@ public class ControlPanel {
         colorSensor = new ColorSensorV3(Port.kOnboard);
     }
     
-    private Color getCurrentColor() {
-        
+    private RawColor getCurrentColor() {
+        return colorSensor.getRawColor();
     }
     
-    private Color getIntendedColor() {
+    private RawColor getIntendedColor() {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(gameData.length() > 0)
@@ -34,7 +35,7 @@ public class ControlPanel {
             switch (gameData.charAt(0))
             {
                 case 'B' :
-                    //Blue case code
+                    return
                     break;
                 case 'G' :
                     //Green case code
