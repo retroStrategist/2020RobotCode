@@ -46,7 +46,7 @@ public class Drivetrain {
     private void initQuadrature(TalonSRX talon) {
         int pulseWidth = talon.getSensorCollection().getPulseWidthPosition();        
         talon.getSensorCollection().setQuadraturePosition(pulseWidth, kTimeoutMs);
-	}
+    }
 
     public static int getLeftTicks(){
         return leftFront.getSelectedSensorPosition(0);
