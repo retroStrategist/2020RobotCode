@@ -5,14 +5,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Wheels { 
 
-    private TalonSRX intake;
-    private TalonSRX largeWheel;
-    private TalonSRX shooter;
+    private WPI_TalonSRX intake;
+    private WPI_TalonSRX largeWheel;
+    private WPI_TalonSRX shooter;
 
     public Wheels(){
-        intake = new TalonSRX(4);
-        largeWheel = new TalonSRX(5);
-        shooter = new TalonSRX(6);
+        intake = new WPI_TalonSRX(4);
+        largeWheel = new WPI_TalonSRX(5);
+        shooter = new WPI_TalonSRX(6);
     }
     //forward is from intake to shooters
     public void spinBigWheelFor(){
