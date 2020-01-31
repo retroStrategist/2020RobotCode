@@ -31,6 +31,10 @@ public class Driver {
         } else {
             System.out.println("Error: No drive type chosen");
         }
+        
+        if(drive.isFault()) {
+            System.out.print(drive.getFaults());
+        }
     }
 
 }
