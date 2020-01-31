@@ -10,6 +10,11 @@ public class Drivetrain {
     private static WPI_TalonSRX leftBack;
     private static WPI_TalonSRX rightFront;
     private static WPI_TalonSRX rightBack;
+    
+    private Faults leftFrontFault;
+    private Faults leftBackFault;
+    private Faults rightFrontFault;
+    private Faults rightBackFault;
 
     final int kTimeoutMs = 30;
     
@@ -22,10 +27,24 @@ public class Drivetrain {
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
         
+        leftFrontFault = new Faults();
+        leftBackFault = new Faults();
+        rightFrontFault = new Faults();
+        rightBackFault = new Faults();
+        
         initQuadrature(leftFront);
         initQuadrature(rightFront);
         leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
         rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
+    }
+    
+    public String getFaults() {
+        leftFront.getFaults(leftFrontFault);
+        leftBack.getFaults(leftBackFault);
+        rightFront.getFaults(rightFrontFault);
+        rightBack.getFaults(rightBackFault);
+        
+        return ("Left Front: " + leftFrontFault.toString() + "\nLeft Back: " + leftBackFault.toString() + "\nRight Front: " + rightFrontFault.toString() + "\nRight Back: " + rightBackFault.toString() + "\n");
     }
 
     public void arcadeDrive(double straight, double left, double right) { 
