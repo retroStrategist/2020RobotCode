@@ -38,13 +38,21 @@ public class Drivetrain {
         rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
     }
     
+    public boolean isFault() {
+        updateFaults();
+        return leftFrontFault.hasAnyFault() || leftBackFault.hasAnyFault() || rightFrontFault.hasAnyFault() || rightBackFault.hasAnyFault();
+    }
+    
     public String getFaults() {
+        updateFaults();
+        return ("Left Front: " + leftFrontFault.toString() + "\nLeft Back: " + leftBackFault.toString() + "\nRight Front: " + rightFrontFault.toString() + "\nRight Back: " + rightBackFault.toString() + "\n");
+    }
+    
+    private void updateFaults() {
         leftFront.getFaults(leftFrontFault);
         leftBack.getFaults(leftBackFault);
         rightFront.getFaults(rightFrontFault);
         rightBack.getFaults(rightBackFault);
-        
-        return ("Left Front: " + leftFrontFault.toString() + "\nLeft Back: " + leftBackFault.toString() + "\nRight Front: " + rightFrontFault.toString() + "\nRight Back: " + rightBackFault.toString() + "\n");
     }
 
     public void arcadeDrive(double straight, double left, double right) { 
