@@ -33,6 +33,16 @@ public class ControlPanel {
         colorSensor = new ColorSensorV3(Port.kOnboard);
     }
     
+    //Turn wheel until the correct color is reached
+    public void positionControl() {
+        
+    }
+    
+    //Turn wheel specified number of times
+    public void rotationControl(byte timesToRotate) {
+        
+    }
+    
     //Return RawColor currently seen by color sensor
     private RawColor getCurrentColor() {
         return colorSensor.getRawColor();
