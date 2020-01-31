@@ -15,6 +15,11 @@ public class ControlPanel {
     private WPI_TalonSRX motor2;
     
     private ColorSensorV3 colorSensor;
+    
+    private final RawColor blue = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor green = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor red = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
+    private final RawColor yellow = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
 
     public ControlPanel() {
         motor1 = new WPI_TalonSRX(10);
@@ -23,29 +28,25 @@ public class ControlPanel {
         colorSensor = new ColorSensorV3(Port.kOnboard);
     }
     
+    //Return RawColor currently seen by color sensor
     private RawColor getCurrentColor() {
         return colorSensor.getRawColor();
     }
     
+    //Return target RawColor sent by FMS
     private RawColor getIntendedColor() {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
-        if(gameData.length() > 0)
-        {
-            switch (gameData.charAt(0))
-            {
+        if(gameData.length() > 0) {
+            switch (gameData.charAt(0)) {
                 case 'B' :
-                    return
-                    break;
+                    return 
                 case 'G' :
-                    //Green case code
-                    break;
+                    return
                 case 'R' :
-                    //Red case code
-                    break;
+                    return
                 case 'Y' :
-                    //Yellow case code
-                    break;
+                    return
                 default :
                     System.out.println("Error: Corrupt data received");
                     break;
