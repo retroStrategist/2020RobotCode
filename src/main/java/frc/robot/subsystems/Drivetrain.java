@@ -6,17 +6,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Drivetrain {
 
-    private static TalonSRX leftFront;
-    private static TalonSRX leftBack;
-    private static TalonSRX rightFront;
-    private static TalonSRX rightBack;
+    private static WPI_TalonSRX leftFront;
+    private static WPI_TalonSRX leftBack;
+    private static WPI_TalonSRX rightFront;
+    private static WPI_TalonSRX rightBack;
 
 
     public Drivetrain() {
-        leftFront = new TalonSRX(0);
-        leftBack = new TalonSRX(1);
-        rightFront = new TalonSRX(2);
-        rightBack = new TalonSRX(3);
+        leftFront = new WPI_TalonSRX(0);
+        leftBack = new WPI_TalonSRX(1);
+        rightFront = new WPI_TalonSRX(2);
+        rightBack = new WPI_TalonSRX(3);
 
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
