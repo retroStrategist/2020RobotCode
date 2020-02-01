@@ -3,7 +3,7 @@ package frc.robot.auto.functions;
 import frc.robot.auto.setup.RobotFunction;
 import frc.robot.subsystems.Drivetrain;
 
-// Drives straight for period of time 
+// Drives straight for specified distance
 public class distanceDrive extends RobotFunction {
  
     private double startTicks, speed, targetTicks;
