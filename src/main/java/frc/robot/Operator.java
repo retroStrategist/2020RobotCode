@@ -11,11 +11,16 @@ public class Operator {
     private boolean startedPositionControl;
     private boolean finishedPositionControl;
     
+    private long lastButtonPress;//Last time rotation control button was pressed
+    private final int BUTTON_DELAY = 500;//Delay time for rotation control button in ms
+    
     public Operator(int port) {
         OP = new Controller(port);
         wheels = new Wheels();
         controlPanel = new ControlPanel();
+        
         resetControlPanel();
+        lastButtonPress = System.currentTimeMillis();
     }
 
     public void opControls() {
@@ -84,7 +89,7 @@ public class Operator {
         }
         
         //Rotation control
-        if(OP.getLeftBumper()) {
+        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY)< System.currentTimeMillis())) {
             addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
         }
         rotationControl();
