@@ -18,16 +18,21 @@ public class ControlPanel {
     private final double SPIN_MOTOR_SPEED = 0.5;
     private final double ARM_MOTOR_SPEED = 0.3;
     
+    private final int FILTER_SAMPLES = 5;
+    
     private WPI_TalonSRX arm;
     private WPI_TalonSRX spin;
     
     private ColorSensorV3 colorSensor;
-    
     private final PossibleColor colorOrder[];
-    
     private PossibleColor lastColor;
     
     private double timesToRotate; //Number of fulls rotations that still must be done to finish position control
+    
+    private LinearFilter filterB;
+    private LinearFilter filterG;
+    private LinearFilter filterR;
+    private LinearFilter filterIR;
     
     private enum PossibleColor
     { 
@@ -63,17 +68,29 @@ public class ControlPanel {
         lastColor = findCloseColor();
         
         timesToRotate = 0.0;
+        
+        filterB = LinearFilter.movingAverage(FILTER_SAMPLES);
+        filterG = LinearFilter.movingAverage(FILTER_SAMPLES);
+        filterR = LinearFilter.movingAverage(FILTER_SAMPLES);
+        filterIR = LinearFilter.movingAverage(FILTER_SAMPLES);
+    }
+    
+    //Resets all filters
+    public void resetFilters() {
+        filterB.reset();
+        filterG.reset();
+        filterR.reset();
+        filterIR.reset();
     }
     
     //Turns wheel when the correct color is not reached & returns true if position is reached
     public boolean positionControl() {
         if(fieldSensorColor() != getIntendedColor()) {
             spin.set(SPIN_MOTOR_SPEED);
-            flipUpMotor();
             return false;
         } else {
             spin.set(0.0);
-            flipDownMotor();
+            resetFilters();
             return true;
         }
     }
@@ -88,12 +105,15 @@ public class ControlPanel {
         SmartDashboard.putNumber("Remaining Control Panel Rotations",timesToRotate);
         if(timesToRotate != 0) {
             spin.set(SPIN_MOTOR_SPEED);
+            flipUpMotor();
             if(colorChange()) {
                 timesToRotate -= 0.125 //Each color segment is 1/8 of wheel. This is subtracting a segment that still needs to be spun through.
             }
         }
         else {
             spin.set(0);
+            flipDownMotor();
+            resetFilters();
         }
     }
     
@@ -135,7 +155,14 @@ public class ControlPanel {
     //Only a utility function to help other methods
     //Use findCloseColor() instead
     private RawColor getCurrentColor() {
-        return colorSensor.getRawColor();
+        RawColor color = colorSensor.getRawColor();
+        
+        color.blue = filterB.calculate(color.blue);
+        color.green = filterG.calculate(color.green);
+        color.red = filterR.calculate(color.red);
+        color.ir = filterIR.calculate(color.ir);
+        
+        return color;
     }
     
     private PossibleColor getIntendedColor() {
