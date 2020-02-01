@@ -18,14 +18,22 @@ public class ControlPanel {
     
     private ColorSensorV3 colorSensor;
     
-    private final RawColor BLUE = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor GREEN = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor RED = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    private final RawColor YELLOW = new RawColor(0,0,0,0);//FIND VALUES FOR HERE
-    
-    enum PossibleColor
+    private enum PossibleColor
     { 
-        BLUE, GREEN, RED, YELLOW; 
+        BLUE(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
+        GREEN(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
+        RED(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
+        YELLOW(new RawColor(0,0,0,0));//FIND VALUES FOR HERE
+        
+        private final RawColor color;
+        
+        PossibleColor(RawColor color) {
+            this.color = color
+        }
+        
+        public RawColor getColor() {
+            return color;
+        }
     } 
 
     public ControlPanel() {
@@ -76,6 +84,13 @@ public class ControlPanel {
     
     //Returns closest PossibleColor
     private PossibleColor findCloseColor() {
+        RawColor currColor = getCurrentColor();
+        
+        blueDiff = colorDifference(currColor, PossibleColor.BLUE.getColor());
+        greenDiff = colorDifference(currColor, PossibleColor.GREEN.getColor());
+        redDiff = colorDifference(currColor, PossibleColor.RED.getColor());
+        yellowDiff = colorDifference(currColor, PossibleColor.YELLOW.getColor());
+        
         
     }
     
