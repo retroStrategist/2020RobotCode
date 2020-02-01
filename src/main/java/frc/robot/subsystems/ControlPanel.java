@@ -61,7 +61,24 @@ public class ControlPanel {
         
     }
     
-    //Return RawColor currently seen by color sensor
+    //Returns the color seen by the field sensor based on the color seen by the robot sensor
+    private PossibleColor fieldSensorColor() {
+        return colorOrder[(x + 2)%4];
+    }
+    
+    //returns corresponding array index
+    private int getArrayIndex() {
+        PossibleColor color = findCloseColor();
+        for(int x = 0; x < 4;x++) {
+            if(color == colorOrder[x]) {
+                return x;
+            }
+        }
+    }
+    
+    //Returns RawColor currently seen by color sensor
+    //Only a utility function to help other methods
+    //Use findCloseColor() instead
     private RawColor getCurrentColor() {
         return colorSensor.getRawColor();
     }
@@ -91,7 +108,7 @@ public class ControlPanel {
         }
     }
     
-    //Returns closest PossibleColor
+    //Returns closest PossibleColor to current sensor color
     private PossibleColor findCloseColor() {
         RawColor currColor = getCurrentColor();
         
