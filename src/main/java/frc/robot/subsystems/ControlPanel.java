@@ -13,10 +13,12 @@ import java.lang.Math;
 
 public class ControlPanel {
     
-    private WPI_TalonSRX motor1;
-    private WPI_TalonSRX motor2;
+    private WPI_TalonSRX arm;
+    private WPI_TalonSRX spin;
     
     private ColorSensorV3 colorSensor;
+    
+    private final PossibleColor colorOrder[];
     
     private enum PossibleColor
     { 
@@ -37,10 +39,16 @@ public class ControlPanel {
     } 
 
     public ControlPanel() {
-        motor1 = new WPI_TalonSRX(10);
-        motor2 = new WPI_TalonSRX(11);
+        arm = new WPI_TalonSRX(10);
+        spin = new WPI_TalonSRX(11);
         
         colorSensor = new ColorSensorV3(Port.kOnboard);
+        
+        colorOrder = new PossibleColor[4];
+        colorOrder[0] = PossibleColor.BLUE;
+        colorOrder[1] = PossibleColor.GREEN;
+        colorOrder[2] = PossibleColor.RED;
+        colorOrder[3] = PossibleColor.YELLOW;
     }
     
     //Turn wheel until the correct color is reached
