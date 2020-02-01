@@ -24,6 +24,8 @@ public class ControlPanel {
     
     private PossibleColor lastColor;
     
+    private double timesToRotate; //Number of fulls rotations that still must be done to finish position control
+    
     private enum PossibleColor
     { 
         BLUE(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
@@ -55,6 +57,8 @@ public class ControlPanel {
         colorOrder[3] = PossibleColor.YELLOW;
         
         lastColor = findCloseColor();
+        
+        timesToRotate = 0.0;
     }
     
     //Turns wheel when the correct color is not reached & returns true if position is reached
@@ -69,8 +73,29 @@ public class ControlPanel {
         }
     }
     
-    //Turn wheel specified number of times
-    public void rotationControl(byte timesToRotate) {
+    //Queue up rotations of the control panel. Add in multiples of 0.125 as each segment is 0.125 of wheel total.
+    public void addControlPanelRotation(double addTimesToRotate) {
+        timesToRotate += addTimesToRotate;
+    }
+    
+    //Turns control panel timesToRotate number of times
+    public void rotationControl() {
+        if(timesToRotate != 0) {
+            spin.set(SPIN_MOTOR_SPEED);
+            if(colorChange()) {
+                timesToRotate -= 0.125 //Each color segment is 1/8 of wheel. This is subtracting a segment that still needs to be spun through.
+            }
+        }
+        else {
+            spin.set(0);
+        }
+    }
+    
+    public void flipUpMotor() {
+        
+    }
+    
+    public void flipDownMotor() {
         
     }
     
