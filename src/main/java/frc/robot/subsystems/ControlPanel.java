@@ -87,7 +87,7 @@ public class ControlPanel {
     
     //Turns control panel timesToRotate number of times
     public void rotationControl() {
-        SmartDashboard.putNumber("Remaining Rotations to complete",timesToRotate);
+        SmartDashboard.putNumber("Remaining Control Panel Rotations",timesToRotate);
         if(timesToRotate != 0) {
             spin.set(SPIN_MOTOR_SPEED);
             if(colorChange()) {
