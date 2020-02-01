@@ -47,7 +47,8 @@ public class Operator {
     }
     
     private void controlPanelControl() {
-        if(OP.getDPadRight()) {
+        //Position control
+        if(OP.getRightBumper()) {
             startedPositionControl = true;
         }
         
@@ -57,6 +58,11 @@ public class Operator {
         
         if(finishedPositionControl) {
             resetControlPanel();
+        }
+        
+        //Rotation control
+        if(OP.getLeftBumper()) {
+            
         }
     }
             
