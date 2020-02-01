@@ -64,7 +64,7 @@ public class ControlPanel {
             return false;
         }
         else {
-            spin.set(0)
+            spin.set(0);
             return true;
         }
     }
