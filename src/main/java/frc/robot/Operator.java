@@ -6,22 +6,14 @@ public class Operator {
 
     private Controller OP;
     private Wheels wheels;
-    private ControlPanel controlPanel;
-    
-    private boolean startedPositionControl;
-    private boolean finishedPositionControl;
 
     public Operator(int port) {
         OP = new Controller(port);
         wheels = new Wheels();
-        controlPanel = new ControlPanel();
-        
-        resetControlPanel();
+
     }
 
     public void opControls() {
-        controlPanelControl();
-        
         if (OP.getXButton()) {
             wheels.spinBigWheelFor();
             System.out.println("attempting to spin big wheel forward");
@@ -59,31 +51,13 @@ public class Operator {
             Climber.extentionStop();
         }
 
+        if(OP.getDPadRight()){
+            Climber.winchination();
+        }
+        else {
+            Climber.winchinationStop();
+        }
         
     }
-    
-    private void controlPanelControl() {
-        //Position control
-        if(OP.getRightBumper()) {
-            startedPositionControl = true;
-        }
-        
-        if(startedPositionControl && !finishedPositionControl) {
-            finishedPositionControl = positionControl();
-        }
-        
-        if(finishedPositionControl) {
-            resetControlPanel();
-        }
-        
-        //Rotation control
-        if(OP.getLeftBumper()) {
-            
-        }
-    }
-            
-    private void resetControlPanel() {
-        startedPositionControl = false;
-        finishedPositionControl = false;
-    }
+
 }
