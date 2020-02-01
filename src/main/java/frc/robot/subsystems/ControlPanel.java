@@ -72,13 +72,14 @@ public class ControlPanel {
                     return PossibleColor.RED;
                 case 'Y' :
                     return PossibleColor.YELLOW;
-                default :
-                    System.out.println("Error: Corrupt data received");
-                    break;
             }
+            
+            System.out.println("Error: Corrupt data received");
+            return NULL;
         } 
         else {
             System.out.println("No data received");
+            return NULL;
         }
     }
     
@@ -91,7 +92,31 @@ public class ControlPanel {
         redDiff = colorDifference(currColor, PossibleColor.RED.getColor());
         yellowDiff = colorDifference(currColor, PossibleColor.YELLOW.getColor());
         
+        int temp, size;
+        int array[] = {blueDiff, greenDiff, redDiff, yellowDiff};
+        size = array.length;
+
+        for(int i = 0; i<size; i++ ) {
+            for(int j = i+1; j<size; j++) {
+                if(array[i]>array[j]) {
+                    temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+        }
         
+        switch (array[0]) {
+            case blueDiff:
+                return PossibleColor.BLUE;
+            case greenDiff:
+                return PossibleColor.GREEN;
+            case redDiff:
+                return PossibleColor.RED;
+            case yellowDiff:
+                return PossibleColor.YELLOW;
+        }
+        return NULL;
     }
     
     //Returns the sum of each difference in raw color value of inputed color and PossibleColors
