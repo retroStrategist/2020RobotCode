@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
@@ -84,5 +84,12 @@ public class Drivetrain {
     
     public static int getRightTicks(){
         return rightFront.getSelectedSensorPosition(0);
+    }
+    
+    public void setNeutralMode(NeutralMode mode) {
+        leftFront.setNeutralMode(mode);
+        leftBack.setNeutralMode(mode);
+        rightFront.setNeutralMode(mode);
+        rightBack.setNeutralMode(mode);
     }
 }
