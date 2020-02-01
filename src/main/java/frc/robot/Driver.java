@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SlewRateLimiter
 import frc.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
