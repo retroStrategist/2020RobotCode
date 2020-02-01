@@ -44,6 +44,22 @@ public class Operator {
         } else {
             wheels.stopShooter();
         }
+
+        if (OP.getDPadUp()){
+            Climber.actuation();
+        }
+        else {
+            Climber.actuationStop();
+        }
+
+        if(OP.getDPadLeft()){
+            Climber.extention();
+        }
+        else {
+            Climber.extentionStop();
+        }
+
+        
     }
     
     private void controlPanelControl() {
