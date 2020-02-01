@@ -40,6 +40,9 @@ public class Driver {
         driveType();
         neutralModeType();
         faultCheck();
+        
+        SmartDashboard.putNumber("Left Ticks", drive.getLeftTicks());
+        SmartDashboard.putNumber("Right Ticks", drive.getRightTicks());
     }
     
     //Selects driveType and drives
