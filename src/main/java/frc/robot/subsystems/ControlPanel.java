@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 
+import java.lang.Math; 
+
 public class ControlPanel {
     
     private WPI_TalonSRX motor1;
@@ -77,8 +79,8 @@ public class ControlPanel {
         
     }
     
-    //Returns difference in raw color value
-    private int colorDifference() {
-        
+    //Returns the sum of each difference in raw color value of inputed color and PossibleColors
+    private int colorDifference(RawColor color, RawColor possible) {
+        return Math.abs(color.red - possible.red) + Math.abs(color.green - possible.green) + Math.abs(color.blue - possible.blue) + Math.abs(color.ir - possible.ir);
     }
 }
