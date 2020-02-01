@@ -22,8 +22,6 @@ public class ControlPanel {
     private WPI_TalonSRX spin;
     
     private ColorSensorV3 colorSensor;
-        
-    private final double SPIN_MOTOR_SPEED = 0.5;
     
     private final PossibleColor colorOrder[];
     
