@@ -13,6 +13,8 @@ import java.lang.Math;
 
 public class ControlPanel {
     
+    private double SPIN_MOTOR_SPEED = 0.5;
+    
     private WPI_TalonSRX arm;
     private WPI_TalonSRX spin;
     
@@ -51,9 +53,16 @@ public class ControlPanel {
         colorOrder[3] = PossibleColor.YELLOW;
     }
     
-    //Turn wheel until the correct color is reached
-    public void positionControl() {
-        
+    //Turns wheel when the correct color is not reached & returns true if position is reached
+    public boolean positionControl() {
+        if(fieldSensorColor() != getIntendedColor()) {
+            spin.set(SPIN_MOTOR_SPEED);
+            return false;
+        }
+        else {
+            spin.set(0)
+            return true;
+        }
     }
     
     //Turn wheel specified number of times
