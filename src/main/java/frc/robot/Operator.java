@@ -78,7 +78,7 @@ public class Operator {
         
         //Rotation control
         if(OP.getLeftBumper()) {
-            addControlPanelRotation(1);
+            addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
         }
         rotationControl();
     }
