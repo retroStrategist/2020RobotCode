@@ -14,6 +14,7 @@ import java.lang.Math;
 public class ControlPanel {
     
     private double SPIN_MOTOR_SPEED = 0.5;
+    private double ARM_MOTOR_SPEED = 0.3;
     
     private WPI_TalonSRX arm;
     private WPI_TalonSRX spin;
@@ -92,11 +93,11 @@ public class ControlPanel {
     }
     
     public void flipUpMotor() {
-        
+        arm.set(ARM_MOTOR_SPEED);
     }
     
     public void flipDownMotor() {
-        
+        arm.set(-ARM_MOTOR_SPEED);
     }
     
     //Returns true if the current color is different from the last color
