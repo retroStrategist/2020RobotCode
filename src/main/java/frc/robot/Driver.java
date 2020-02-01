@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 public class Driver {
     Controller joy;
     Drivetrain drive;
