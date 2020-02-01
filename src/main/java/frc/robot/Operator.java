@@ -71,6 +71,7 @@ public class Operator {
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
+            flipUpMotor();
         }
         
         if(startedPositionControl && !finishedPositionControl){
@@ -78,15 +79,17 @@ public class Operator {
         }
         
         if(finishedPositionControl) {
+            flipDownMotor();
             resetControlPanel();
         }
         
         //Rotation control
-        if(OP.getLeftBumper()) { 
-            
+        if(OP.getLeftBumper()) {
+            addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
         }
-    }    
-
+        rotationControl();
+    }
+            
     private void resetControlPanel() {
         startedPositionControl = false;
         finishedPositionControl = false;
