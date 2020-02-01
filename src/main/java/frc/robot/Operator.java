@@ -14,6 +14,9 @@ public class Operator {
     private long lastButtonPress;//Last time rotation control button was pressed
     private final int BUTTON_DELAY = 500;//Delay time for rotation control button in ms
     
+    private long lastPositionPress;//Last time position control button was pressed
+    private final int POSITION_TIMEOUT = 1000;//Position control timeout in ms
+    
     public Operator(int port) {
         OP = new Controller(port);
         wheels = new Wheels();
@@ -76,6 +79,7 @@ public class Operator {
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
+            finishedPositionControl = false;
             flipUpMotor();
         }
         
@@ -88,8 +92,13 @@ public class Operator {
             resetControlPanel();
         }
         
+        //Pos control timeout
+        if((lastPositionPress + POSITION_TIMEOUT) < System.currentTimeMillis()) {
+            finishedPositionControl = true;
+        }
+        
         //Rotation control
-        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY)< System.currentTimeMillis())) {
+        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY) < System.currentTimeMillis())) {
             addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
         }
         rotationControl();
