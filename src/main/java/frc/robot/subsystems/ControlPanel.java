@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -9,30 +10,32 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 
-import java.lang.Math; 
+import java.lang.Math;
 
 public class ControlPanel {
-    
-    private double SPIN_MOTOR_SPEED = 0.5;
     
     private WPI_TalonSRX arm;
     private WPI_TalonSRX spin;
     
     private ColorSensorV3 colorSensor;
+        
+    private final double SPIN_MOTOR_SPEED = 0.5;
     
     private final PossibleColor colorOrder[];
     
+    
     private enum PossibleColor
     { 
-        BLUE(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
-        GREEN(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
-        RED(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
-        YELLOW(new RawColor(0,0,0,0));//FIND VALUES FOR HERE
+        //TODO find correct color values
+        BLUE(new RawColor(0, 0, 0, 0)),
+        GREEN(new RawColor(0, 0, 0, 0)),
+        RED(new RawColor(0, 0, 0, 0)),
+        YELLOW(new RawColor(0, 0, 0, 0)); 
         
         private final RawColor color;
         
         PossibleColor(RawColor color) {
-            this.color = color
+            this.color = color;
         }
         
         public RawColor getColor() {
@@ -58,9 +61,8 @@ public class ControlPanel {
         if(fieldSensorColor() != getIntendedColor()) {
             spin.set(SPIN_MOTOR_SPEED);
             return false;
-        }
-        else {
-            spin.set(0)
+        } else {
+            spin.set(0.0);
             return true;
         }
     }
@@ -70,15 +72,15 @@ public class ControlPanel {
         
     }
     
-    //Returns the color seen by the field sensor based on the color seen by the robot sensor
+    //Return RawColor currently seen by field sensor based on color seen by the robot sensor
     private PossibleColor fieldSensorColor() {
         return colorOrder[(x + 2)%4];
     }
-    
+
     //returns corresponding array index
     private int getArrayIndex() {
         PossibleColor color = findCloseColor();
-        for(int x = 0; x < 4;x++) {
+        for(int x = 0; x < 4; x++) {
             if(color == colorOrder[x]) {
                 return x;
             }
@@ -92,7 +94,6 @@ public class ControlPanel {
         return colorSensor.getRawColor();
     }
     
-    //Return target PossibleColor sent by FMS
     private PossibleColor getIntendedColor() {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -106,33 +107,31 @@ public class ControlPanel {
                     return PossibleColor.RED;
                 case 'Y' :
                     return PossibleColor.YELLOW;
+                default :
+                    System.out.println("Error: Corrupt data received");
+                    break;
             }
-            
-            System.out.println("Error: Corrupt data received");
-            return NULL;
         } 
         else {
             System.out.println("No data received");
-            return NULL;
         }
     }
     
     //Returns closest PossibleColor to current sensor color
     private PossibleColor findCloseColor() {
         RawColor currColor = getCurrentColor();
-        
         blueDiff = colorDifference(currColor, PossibleColor.BLUE.getColor());
-        greenDiff = colorDifference(currColor, PossibleColor.GREEN.getColor());
+        greenDiff = colorDifference(currColor, PossibleColor.GREED.getColor());
         redDiff = colorDifference(currColor, PossibleColor.RED.getColor());
         yellowDiff = colorDifference(currColor, PossibleColor.YELLOW.getColor());
         
         int temp, size;
         int array[] = {blueDiff, greenDiff, redDiff, yellowDiff};
         size = array.length;
-
-        for(int i = 0; i<size; i++ ) {
-            for(int j = i+1; j<size; j++) {
-                if(array[i]>array[j]) {
+        
+        for(int i = 0; i < size; i++) {
+            for(int j = i+1; j < size; j++) {
+                if(array[i] > array[j]) {
                     temp = array[i];
                     array[i] = array[j];
                     array[j] = temp;
@@ -153,8 +152,10 @@ public class ControlPanel {
         return NULL;
     }
     
-    //Returns the sum of each difference in raw color value of inputed color and PossibleColors
+    //Returns the sum of each in raw color value of inputed color and PossibleColors
     private int colorDifference(RawColor color, RawColor possible) {
-        return Math.abs(color.red - possible.red) + Math.abs(color.green - possible.green) + Math.abs(color.blue - possible.blue) + Math.abs(color.ir - possible.ir);
+        return Math.abs(color.red - possible.red) + Math.abs(color.green - possible.green) +
+            Math.abs(color.blue - possible.blue) + Math.abs(color.ir - possible.ir);
     }
+
 }

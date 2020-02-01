@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Wheels { 
 
@@ -18,7 +19,7 @@ public class Wheels {
     public void spinBigWheelFor(){
         largeWheel.set(ControlMode.PercentOutput, -0.3);
     }
-    
+
     public void spinBigWheelBac(){
         largeWheel.set(ControlMode.PercentOutput, 0.3);
     }
