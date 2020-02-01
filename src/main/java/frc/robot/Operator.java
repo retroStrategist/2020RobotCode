@@ -66,6 +66,7 @@ public class Operator {
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
+            flipUpMotor();
         }
         
         if(startedPositionControl && !finishedPositionControl) {
@@ -73,6 +74,7 @@ public class Operator {
         }
         
         if(finishedPositionControl) {
+            flipDownMotor();
             resetControlPanel();
         }
         
