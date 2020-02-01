@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
@@ -86,6 +87,7 @@ public class ControlPanel {
     
     //Turns control panel timesToRotate number of times
     public void rotationControl() {
+        SmartDashboard.putNumber("Remaining Rotations to complete",timesToRotate);
         if(timesToRotate != 0) {
             spin.set(SPIN_MOTOR_SPEED);
             if(colorChange()) {
