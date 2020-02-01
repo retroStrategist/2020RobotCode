@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.LinearFilter;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorSensorV3.RawColor;
 
-import java.lang.Math;
-
 public class ControlPanel {
     
     private final double SPIN_MOTOR_SPEED = 0.5;
