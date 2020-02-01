@@ -22,6 +22,8 @@ public class ControlPanel {
     
     private final PossibleColor colorOrder[];
     
+    private PossibleColor lastColor;
+    
     private enum PossibleColor
     { 
         BLUE(new RawColor(0,0,0,0)),//FIND VALUES FOR HERE
@@ -51,6 +53,8 @@ public class ControlPanel {
         colorOrder[1] = PossibleColor.GREEN;
         colorOrder[2] = PossibleColor.RED;
         colorOrder[3] = PossibleColor.YELLOW;
+        
+        lastColor = findCloseColor();
     }
     
     //Turns wheel when the correct color is not reached & returns true if position is reached
@@ -68,6 +72,17 @@ public class ControlPanel {
     //Turn wheel specified number of times
     public void rotationControl(byte timesToRotate) {
         
+    }
+    
+    //Returns true if the current color is different from the last color
+    private boolean colorChanged() {
+        if(findCloseColor() == lastColor) {
+            return false;
+        }
+        else {
+            lastColor = findCloseColor();
+            return true;
+        }
     }
     
     //Returns the color seen by the field sensor based on the color seen by the robot sensor
