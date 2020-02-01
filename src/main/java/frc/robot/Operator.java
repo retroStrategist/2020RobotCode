@@ -78,8 +78,9 @@ public class Operator {
         
         //Rotation control
         if(OP.getLeftBumper()) {
-            
+            addControlPanelRotation(1);
         }
+        rotationControl();
     }
             
     private void resetControlPanel() {
