@@ -18,10 +18,16 @@ public class Driver {
     SendableChooser<Byte> neutralModeType;//Sets whether motors brake or coast
     private final Byte brake = 0;
     private final Byte coast = 1;
+    
+    private final SlewRateLimiter rateFilter;
+    private final double SLEW_RATE_LIMIT = 1;
 
     public Driver(int port) {
         joy = new Controller(port);
         drive = new Drivetrain();
+        
+        rateFilter = new SlewRateLimiter(SLEW_RATE_LIMIT);
+        rateFilter2 = new SlewRateLimiter(SLEW_RATE_LIMIT);
 
         //Init driveType
         driveType = new SendableChooser<>();
@@ -35,7 +41,7 @@ public class Driver {
         neutralModeType.addOption("Coast", coast);
         SmartDashboard.putData("Drivetrain Coast Type", neutralModeType);
     }
-
+ 
     public void runDriveControls() {
         driveType();
         neutralModeType();
@@ -48,11 +54,11 @@ public class Driver {
     //Selects driveType and drives
     private void driveType() {
         if(driveType.getSelected().equals(arcade)) {
-            drive.arcadeDrive(joy.getRightYAxis(), joy.getLeftTrigger(), joy.getRightTrigger());
+            drive.arcadeDrive(rateFilter.calculate(joy.getRightYAxis()), joy.getLeftTrigger(), joy.getRightTrigger());
             System.out.println("Y Axis: " + joy.getRightYAxis() + "     Left: " + joy.getLeftTrigger() + "     Right: " + joy.getRightYAxis());
         } 
         else if(driveType.getSelected().equals(tank)) {
-            drive.tankDrive(joy.getLeftYAxis(), joy.getRightYAxis());
+            drive.tankDrive(rateFilter.calculate(joy.getLeftYAxis()), rateFilter2.calculate(joy.getRightYAxis()));
         } 
         else {
             System.out.println("Error: No drive type chosen");
