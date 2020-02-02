@@ -81,7 +81,6 @@ public class Operator {
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
-            finishedPositionControl = false;
             flipUpMotor();
         }
         
