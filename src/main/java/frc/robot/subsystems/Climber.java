@@ -26,7 +26,12 @@ public class Climber {
     
     //Actuates and holds when limit switch is hit
     public static void actuation() {
-        actuator.set(ControlMode.PercentOutput, 0.3); //Raising
+        if(!getUpLimit()) {
+            actuator.set(ControlMode.PercentOutput, 0.3); //Raising
+        }
+        else {
+            hold();
+        }
         actuated = true;
     }
     
