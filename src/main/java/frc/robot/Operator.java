@@ -7,6 +7,7 @@ public class Operator {
     private Controller OP;
     private Wheels wheels;
     private ControlPanel controlPanel;
+    private Climber climb;
 
     private boolean startedPositionControl;
     private boolean finishedPositionControl;
@@ -21,6 +22,7 @@ public class Operator {
         OP = new Controller(port);
         wheels = new Wheels();
         controlPanel = new ControlPanel();
+        climb = new Climber();
         
         resetControlPanel();
         lastButtonPress = System.currentTimeMillis();
