@@ -19,6 +19,10 @@ public class Drivetrain {
     private Faults leftBackFault;
     private Faults rightFrontFault;
     private Faults rightBackFault;
+    
+    private final SlewRateLimiter rateFilterLeft;
+    private final SlewRateLimiter rateFilterRight;
+    private final double SLEW_RATE_LIMIT = 5;
 
     final int kTimeoutMs = 30;
     
@@ -40,6 +44,9 @@ public class Drivetrain {
         initQuadrature(rightFront);
         leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
         rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
+                
+        rateFilterLeft = new SlewRateLimiter(SLEW_RATE_LIMIT);
+        rateFilterRight = new SlewRateLimiter(SLEW_RATE_LIMIT);
     }
     
     public boolean isFault() {
@@ -60,18 +67,27 @@ public class Drivetrain {
     }
 
     public void arcadeDrive(double straight, double left, double right) { 
-        leftFront.set(ControlMode.PercentOutput, straight + left - right);
-        rightFront.set(ControlMode.PercentOutput, -(straight - left + right)); 
+        leftDrive(straight + left - right);
+        rightDrive(-(straight - left + right));
     }
 
+    //Straight drive for autonomy
     public static void drive(double speed){
-        leftFront.set(ControlMode.PercentOutput, speed);
-        rightFront.set(ControlMode.PercentOutput, speed);
+        leftDrive(speed);
+        rightDrive(speed);
     }
 
     public void tankDrive(double lspeed, double rspeed){
-        leftFront.set(ControlMode.PercentOutput, lspeed);
-        rightFront.set(ControlMode.PercentOutput, rspeed);
+        leftDrive(lspeed);
+        rightDrive(rspeed);
+    }
+    
+    private void leftDrive(double speed) {
+        leftFront.set(rateFilterLeft.calculate(speed));
+    }
+    
+    private void rightDrive(double speed) {
+        rightFront.set(rateFilterRight.calculate(speed));
     }
     
     private void initQuadrature(TalonSRX talon) {
