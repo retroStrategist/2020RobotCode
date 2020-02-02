@@ -57,7 +57,7 @@ public class Operator {
         if (OP.getDPadUp()){
             Climber.actuation();
         }
-        else {
+        else if(OP.getDPadDown()) {
             Climber.actuationStop();
         }
 
