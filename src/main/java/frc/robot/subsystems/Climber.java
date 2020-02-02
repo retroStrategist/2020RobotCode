@@ -7,14 +7,27 @@ public class Climber {
     private static TalonSRX actuator;
     private static TalonSRX extender;
     private static TalonSRX winch;
+    
+    private static DigitalInput upLimit;
+    private static DigitalInput downLimit;
 
     public Climber(){
         actuator = new TalonSRX(7);
         extender = new TalonSRX(8);
         winch = new TalonSRX(9);
+        
+        upLimit = new DigitalInput(0);
+        downLimit = new DigitalInput(1);
     }
+    
+    //Actuates and holds when limit switch is hit
     public static void actuation(){
-        actuator.set(ControlMode.PercentOutput, 0.3);
+        if(!upLimit.get()) {    //NOTE: May need to be inverted depending on switch used and if MCU is actice-high or active-low
+            actuator.set(ControlMode.PercentOutput, 0.3); //Raising
+        }
+        else {
+            actuator.set(ControlMode.PercentOutput, 0.05); //Holding
+        }
     }
     public static void extention(){
         extender.set(ControlMode.PercentOutput, 0.3);
