@@ -21,14 +21,18 @@ public class Climber {
     }
     
     //Actuates and holds when limit switch is hit
-    public static void actuation(){
-        if(!upLimit.get()) {    //NOTE: May need to be inverted depending on switch used and if MCU is actice-high or active-low
-            actuator.set(ControlMode.PercentOutput, 0.3); //Raising
-        }
-        else {
-            actuator.set(ControlMode.PercentOutput, 0.05); //Holding
-        }
+    public static void actuation() {
+        actuator.set(ControlMode.PercentOutput, 0.3); //Raising
     }
+    
+    public static void hold() {
+        actuator.set(ControlMode.PercentOutput, 0.05); //Holding
+    }
+    
+    public static boolean getUpLimit() {
+        return upLimit.get(); //NOTE: May need to be inverted depending on switch used and if MCU is actice-high or active-low
+    }
+    
     public static void extention(){
         extender.set(ControlMode.PercentOutput, 0.3);
     }
