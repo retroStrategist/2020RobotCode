@@ -60,6 +60,9 @@ public class Operator {
         else if(OP.getDPadDown()) {
             Climber.actuationStop();
         }
+        else if(getActuated() && getUpLimit()) {
+            Climber.hold();
+        }
 
         if(OP.getDPadLeft()){
             Climber.extention();
