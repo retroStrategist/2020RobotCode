@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SlewRateLimiter;
 import frc.robot.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -19,16 +18,10 @@ public class Driver {
     SendableChooser<Byte> neutralModeType;//Sets whether motors brake or coast
     private final Byte brake = 0;
     private final Byte coast = 1;
-    
-    private final SlewRateLimiter rateFilter;
-    private final double SLEW_RATE_LIMIT = 1;
 
     public Driver(int port) {
         joy = new Controller(port);
         drive = new Drivetrain();
-        
-        rateFilter = new SlewRateLimiter(SLEW_RATE_LIMIT);
-        rateFilter2 = new SlewRateLimiter(SLEW_RATE_LIMIT);
 
         //Init driveType
         driveType = new SendableChooser<>();
@@ -55,11 +48,11 @@ public class Driver {
     //Selects driveType and drives
     private void driveType() {
         if(driveType.getSelected().equals(arcade)) {
-            drive.arcadeDrive(rateFilter.calculate(joy.getRightYAxis()), joy.getLeftTrigger(), joy.getRightTrigger());
+            drive.arcadeDrive(joy.getRightYAxis(), joy.getLeftTrigger(), joy.getRightTrigger());
             System.out.println("Y Axis: " + joy.getRightYAxis() + "     Left: " + joy.getLeftTrigger() + "     Right: " + joy.getRightYAxis());
         } 
         else if(driveType.getSelected().equals(tank)) {
-            drive.tankDrive(rateFilter.calculate(joy.getLeftYAxis()), rateFilter2.calculate(joy.getRightYAxis()));
+            drive.tankDrive(joy.getLeftYAxis(), joy.getRightYAxis());
         } 
         else {
             System.out.println("Error: No drive type chosen");
