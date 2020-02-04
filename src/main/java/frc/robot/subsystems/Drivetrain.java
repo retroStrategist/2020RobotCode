@@ -2,11 +2,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.SlewRateLimiter;
 
 public class Drivetrain {
 
@@ -19,10 +18,6 @@ public class Drivetrain {
     private Faults leftBackFault;
     private Faults rightFrontFault;
     private Faults rightBackFault;
-    
-    private final SlewRateLimiter rateFilterLeft;
-    private final SlewRateLimiter rateFilterRight;
-    private final double SLEW_RATE_LIMIT = 5;
 
     final int kTimeoutMs = 30;
     
@@ -44,9 +39,6 @@ public class Drivetrain {
         initQuadrature(rightFront);
         leftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
         rightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs);
-                
-        rateFilterLeft = new SlewRateLimiter(SLEW_RATE_LIMIT);
-        rateFilterRight = new SlewRateLimiter(SLEW_RATE_LIMIT);
     }
     
     public boolean isFault() {
@@ -67,27 +59,18 @@ public class Drivetrain {
     }
 
     public void arcadeDrive(double straight, double left, double right) { 
-        leftDrive(straight + left - right);
-        rightDrive(-(straight - left + right));
+        leftFront.set(ControlMode.PercentOutput, straight + left - right);
+        rightFront.set(ControlMode.PercentOutput, -(straight - left + right)); 
     }
 
-    //Straight drive for autonomy
     public static void drive(double speed){
-        leftDrive(speed);
-        rightDrive(speed);
+        leftFront.set(ControlMode.PercentOutput, speed);
+        rightFront.set(ControlMode.PercentOutput, speed);
     }
 
     public void tankDrive(double lspeed, double rspeed){
-        leftDrive(lspeed);
-        rightDrive(rspeed);
-    }
-    
-    private void leftDrive(double speed) {
-        leftFront.set(rateFilterLeft.calculate(speed));
-    }
-    
-    private void rightDrive(double speed) {
-        rightFront.set(rateFilterRight.calculate(speed));
+        leftFront.set(ControlMode.PercentOutput, lspeed);
+        rightFront.set(ControlMode.PercentOutput, rspeed);
     }
     
     private void initQuadrature(TalonSRX talon) {
@@ -101,12 +84,5 @@ public class Drivetrain {
     
     public static int getRightTicks(){
         return rightFront.getSelectedSensorPosition(0);
-    }
-    
-    public void setNeutralMode(NeutralMode mode) {
-        leftFront.setNeutralMode(mode);
-        leftBack.setNeutralMode(mode);
-        rightFront.setNeutralMode(mode);
-        rightBack.setNeutralMode(mode);
     }
 }
