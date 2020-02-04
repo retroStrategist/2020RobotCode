@@ -35,6 +35,7 @@ public class Climber {
         actuated = true;
     }
     
+    //TODO the hold value needs to be tested 
     public static void hold() {
         actuator.set(ControlMode.PercentOutput, 0.05); //Holding
     }
