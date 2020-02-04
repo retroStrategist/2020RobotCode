@@ -25,7 +25,7 @@ public class Operator {
         climb = new Climber();
         
         resetControlPanel();
-        lastButtonPress = System.currentTimeMillis();
+        lastButtonPress = (Timer.getFPGATimestamp()/1000);
     }
 
     public void opControls() {
@@ -97,12 +97,12 @@ public class Operator {
         }
         
         //Pos control timeout
-        if((lastPositionPress + POSITION_TIMEOUT) < System.currentTimeMillis()) {
+        if((lastPositionPress + POSITION_TIMEOUT) < (Timer.getFPGATimestamp()/1000)) {
             finishedPositionControl = true;
         }
         
         //Rotation control
-        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY) < System.currentTimeMillis())) {
+        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY) < (Timer.getFPGATimestamp()/1000))) {
             addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
         }
         rotationControl();
