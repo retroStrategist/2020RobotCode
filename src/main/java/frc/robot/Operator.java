@@ -84,6 +84,7 @@ public class Operator {
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
+            lastPositionPress = (Timer.getFPGATimestamp()/1000);
             flipUpMotor();
         }
         
@@ -104,6 +105,7 @@ public class Operator {
         //Rotation control
         if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY) < (Timer.getFPGATimestamp()/1000))) {
             addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
+            lastButtonPress = (Timer.getFPGATimestamp()/1000);
         }
         rotationControl();
     }
