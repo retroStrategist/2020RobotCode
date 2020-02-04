@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 public class Driver {
     Controller joy;
     Drivetrain drive;
+    Climber climb;
 
     private SendableChooser<Byte> driveType;
     private final Byte arcade = 0;
@@ -22,7 +23,8 @@ public class Driver {
     public Driver(int port) {
         joy = new Controller(port);
         drive = new Drivetrain();
-
+        climb = new Climber();
+        
         //Init driveType
         driveType = new SendableChooser<>();
         driveType.setDefaultOption("Arcade", arcade);
@@ -40,6 +42,31 @@ public class Driver {
         driveType();
         neutralModeType();
         faultCheck();
+        
+        //Climber stuff
+        if (OP.getDPadUp()){
+            climb.actuation();
+        }
+        else if(OP.getDPadDown()) {
+            climb.actuationStop();
+        }
+        else if(getActuated() && getUpLimit()) {
+            climb.hold();
+        }
+
+        if(OP.getDPadLeft()){
+            climb.extention();
+        }
+        else {
+            climb.extentionStop();
+        }
+
+        if(OP.getDPadRight()){
+            climb.winchination();
+        }
+        else {
+            climb.winchinationStop();
+        }
         
         SmartDashboard.putNumber("Left Ticks", drive.getLeftTicks());
         SmartDashboard.putNumber("Right Ticks", drive.getRightTicks());
