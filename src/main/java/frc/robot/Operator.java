@@ -7,7 +7,6 @@ public class Operator {
     private Controller OP;
     private Wheels wheels;
     private ControlPanel controlPanel;
-    private Climber climb;
 
     private boolean startedPositionControl;
     private boolean finishedPositionControl;
@@ -22,7 +21,6 @@ public class Operator {
         OP = new Controller(port);
         wheels = new Wheels();
         controlPanel = new ControlPanel();
-        climb = new Climber();
         
         resetControlPanel();
         lastButtonPress = (Timer.getFPGATimestamp()/1000);
@@ -52,30 +50,6 @@ public class Operator {
             wheels.spinShooter();
         } else {
             wheels.stopShooter();
-        }
-        
-        if (OP.getDPadUp()){
-            Climber.actuation();
-        }
-        else if(OP.getDPadDown()) {
-            Climber.actuationStop();
-        }
-        else if(getActuated() && getUpLimit()) {
-            Climber.hold();
-        }
-
-        if(OP.getDPadLeft()){
-            Climber.extention();
-        }
-        else {
-            Climber.extentionStop();
-        }
-
-        if(OP.getDPadRight()){
-            Climber.winchination();
-        }
-        else {
-            Climber.winchinationStop();
         }
         
     }
