@@ -11,11 +11,19 @@ public class Operator {
     private boolean startedPositionControl;
     private boolean finishedPositionControl;
     
+    private long lastButtonPress;//Last time rotation control button was pressed
+    private final int BUTTON_DELAY = 500;//Delay time for rotation control button in ms
+    
+    private long lastPositionPress;//Last time position control button was pressed
+    private final int POSITION_TIMEOUT = 1000;//Position control timeout in ms
+    
     public Operator(int port) {
         OP = new Controller(port);
         wheels = new Wheels();
         controlPanel = new ControlPanel();
+        
         resetControlPanel();
+        lastButtonPress = (Timer.getFPGATimestamp()/1000);
     }
 
     public void opControls() {
@@ -44,33 +52,13 @@ public class Operator {
             wheels.stopShooter();
         }
         
-        if (OP.getDPadUp()){
-            Climber.actuation();
-        }
-        else {
-            Climber.actuationStop();
-        }
-
-        if(OP.getDPadLeft()){
-            Climber.extention();
-        }
-        else {
-            Climber.extentionStop();
-        }
-
-        if(OP.getDPadRight()){
-            Climber.winchination();
-        }
-        else {
-            Climber.winchinationStop();
-        }
-        
     }
     
     private void controlPanelControl(){
         //Position control
         if(OP.getRightBumper()) {
             startedPositionControl = true;
+            lastPositionPress = (Timer.getFPGATimestamp()/1000);
             flipUpMotor();
         }
         
@@ -83,9 +71,15 @@ public class Operator {
             resetControlPanel();
         }
         
+        //Pos control timeout
+        if((lastPositionPress + POSITION_TIMEOUT) < (Timer.getFPGATimestamp()/1000)) {
+            finishedPositionControl = true;
+        }
+        
         //Rotation control
-        if(OP.getLeftBumper()) {
+        if(OP.getLeftBumper() && ((lastButtonPress + BUTTON_DELAY) < (Timer.getFPGATimestamp()/1000))) {
             addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
+            lastButtonPress = (Timer.getFPGATimestamp()/1000);
         }
         rotationControl();
     }
