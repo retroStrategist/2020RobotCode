@@ -16,7 +16,7 @@ public class distanceDrive extends RobotFunction {
     }
     @Override
     public void init() {
-        startTicks = Drivetrain.getTicks();
+        startTicks = Drivetrain.getLeftTicks();
     }
     @Override
     public void run() {
@@ -24,12 +24,10 @@ public class distanceDrive extends RobotFunction {
     }
     @Override
     public boolean isFinished() {
-        return Drivetrain.getTicks() - startTicks > targetTicks;
+        return Drivetrain.getLeftTicks() - startTicks > targetTicks;
     }
     @Override
     public void stop(){
         Drivetrain.drive(0.0);
-    }
- 
- 
+    } 
 }

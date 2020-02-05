@@ -7,6 +7,7 @@ import frc.robot.subsystems.*;
 public class Driver {
     Controller joy;
     Drivetrain drive;
+    Climber climb;
 
     private SendableChooser<Byte> driveType;
     private final Byte arcade = 0;
@@ -15,6 +16,7 @@ public class Driver {
     public Driver(int port) {
         joy = new Controller(port);
         drive = new Drivetrain();
+        climb = new Climber();
 
         driveType = new SendableChooser<>();
         driveType.setDefaultOption("Arcade", arcade);
@@ -23,6 +25,7 @@ public class Driver {
     }
 
     public void runDriveControls() {
+        //DRIVE CONTROLS
         if(driveType.getSelected().equals(arcade)) {
             drive.arcadeDrive(joy.getRightYAxis(), joy.getLeftTrigger(), joy.getRightTrigger());
             System.out.println("Y Axis: " + joy.getRightYAxis() + "     Left: " + joy.getLeftTrigger() + "     Right: " + joy.getRightYAxis());
@@ -31,10 +34,23 @@ public class Driver {
         } else {
             System.out.println("Error: No drive type chosen");
         }
-        
-        if(drive.isFault()) {
-            System.out.print(drive.getFaults());
-        }
-    }
 
+
+        //CLIMBER CONTROLS
+        if (joy.getDPadUp()){
+            climb.actuation();
+        } else {
+            climb.actuationStop();
+        }
+        if(joy.getDPadLeft()){
+            climb.extention();
+        } else {
+            climb.extentionStop();
+        }
+        if(joy.getDPadRight()){
+            climb.winchination();
+        } else {
+            climb.winchinationStop();
+        }        
+    }
 }

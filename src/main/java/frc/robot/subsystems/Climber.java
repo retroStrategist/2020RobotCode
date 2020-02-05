@@ -4,31 +4,31 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Climber { 
-    private static TalonSRX actuator;
-    private static TalonSRX extender;
-    private static TalonSRX winch;
+    private TalonSRX actuator;
+    private TalonSRX extender;
+    private TalonSRX winch;
 
     public Climber(){
         actuator = new TalonSRX(7);
         extender = new TalonSRX(8);
         winch = new TalonSRX(9);
     }
-    public static void actuation(){
+    public void actuation(){
         actuator.set(ControlMode.PercentOutput, 0.3);
     }
-    public static void extention(){
+    public void extention(){
         extender.set(ControlMode.PercentOutput, 0.3);
     }
-    public static void winchination(){
+    public void winchination(){
         winch.set(ControlMode.PercentOutput, 0.3);
     }
-    public static void actuationStop(){
+    public void actuationStop(){
         actuator.set(ControlMode.PercentOutput, 0.0);
     }
-    public static void extentionStop(){
+    public void extentionStop(){
         extender.set(ControlMode.PercentOutput, 0.0);
     }
-    public static void winchinationStop(){
+    public void winchinationStop(){
         winch.set(ControlMode.PercentOutput, 0.0);
     }
 }

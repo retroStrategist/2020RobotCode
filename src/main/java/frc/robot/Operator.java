@@ -6,16 +6,16 @@ public class Operator {
 
     private Controller OP;
     private Wheels wheels;
-    private ControlPanel controlPanel;
+//    private ControlPanel controlPanel;
 
-    private boolean startedPositionControl;
-    private boolean finishedPositionControl;
+    // private boolean startedPositionControl;
+    // private boolean finishedPositionControl;
     
     public Operator(int port) {
         OP = new Controller(port);
         wheels = new Wheels();
-        controlPanel = new ControlPanel();
-        resetControlPanel();
+//        controlPanel = new ControlPanel();
+//        resetControlPanel();
     }
 
     public void opControls() {
@@ -42,56 +42,34 @@ public class Operator {
             wheels.spinShooter();
         } else {
             wheels.stopShooter();
-        }
-        
-        if (OP.getDPadUp()){
-            Climber.actuation();
-        }
-        else {
-            Climber.actuationStop();
-        }
-
-        if(OP.getDPadLeft()){
-            Climber.extention();
-        }
-        else {
-            Climber.extentionStop();
-        }
-
-        if(OP.getDPadRight()){
-            Climber.winchination();
-        }
-        else {
-            Climber.winchinationStop();
-        }
-        
+        }        
     }
     
     private void controlPanelControl(){
-        //Position control
-        if(OP.getRightBumper()) {
-            startedPositionControl = true;
-            flipUpMotor();
-        }
+        // //Position control
+        // if(OP.getRightBumper()) {
+        //     startedPositionControl = true;
+        //     flipUpMotor();
+        // }
         
-        if(startedPositionControl && !finishedPositionControl){
-            finishedPositionControl = positionControl();
-        }
+        // if(startedPositionControl && !finishedPositionControl){
+        //     finishedPositionControl = positionControl();
+        // }
         
-        if(finishedPositionControl) {
-            flipDownMotor();
-            resetControlPanel();
-        }
+        // if(finishedPositionControl) {
+        //     flipDownMotor();
+        //     resetControlPanel();
+        // }
         
-        //Rotation control
-        if(OP.getLeftBumper()) {
-            addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
-        }
-        rotationControl();
+        // //Rotation control
+        // if(OP.getLeftBumper()) {
+        //     addControlPanelRotation(1);//Each button press queues another rotation for the motor to spin through
+        // }
+        // rotationControl();
     }
             
-    private void resetControlPanel() {
-        startedPositionControl = false;
-        finishedPositionControl = false;
-    }
+    // private void resetControlPanel() {
+    //     startedPositionControl = false;
+    //     finishedPositionControl = false;
+    // }
 }
