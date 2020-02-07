@@ -14,18 +14,22 @@ public class distanceDrive extends RobotFunction {
         this.speed = speed;
         targetTicks = distance*ticksPerInch;
     }
+
     @Override
     public void init() {
         startTicks = Drivetrain.getLeftTicks();
     }
+
     @Override
     public void run() {
         Drivetrain.drive(speed);
     }
+
     @Override
     public boolean isFinished() {
         return Drivetrain.getLeftTicks() - startTicks > targetTicks;
     }
+
     @Override
     public void stop(){
         Drivetrain.drive(0.0);

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.Wheels;
 
 
 /**
@@ -86,5 +87,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    System.out.println(Wheels.printSonar());
   }
 }

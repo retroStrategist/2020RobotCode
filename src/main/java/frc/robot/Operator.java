@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.*;
 
 public class Operator {
@@ -33,10 +34,19 @@ public class Operator {
         }
 
         if (OP.getOButton()) {
-            wheels.spinIntake();
-        } else {
+            if(wheels.printSonar()>0){ //this will be a correct number eventually
+                wheels.stopIntake();
+                wheels.spinBigWheelFor();
+            }
+            else {
+                wheels.spinIntake();
+            }
+        } 
+        else {
             wheels.stopIntake();
+            wheels.stopBigWheel();
         }
+
 
         if (OP.getSquareButton()) {
             wheels.spinShooter();
