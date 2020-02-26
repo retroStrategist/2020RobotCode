@@ -18,11 +18,12 @@ public class Wheels {
         shooter = new WPI_TalonSRX(6);
         belt = new WPI_TalonSRX(7);
         ballSonar = new AnalogInput(0);
+        
         //Sets TalonSRX Motors to brake mode if true
-        intake.setNeutralMode(true);  
-        largeWheel.setNeutralMode(true);  
-        shooter.setNeutralMode(true);  
-        belt.setNeutralMode(true);    
+        intake.setNeutralMode(false);  
+        largeWheel.setNeutralMode(false);  
+        shooter.setNeutralMode(false);
+        belt.setNeutralMode(false);
     }
     
     
