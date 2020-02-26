@@ -19,7 +19,13 @@ public class Drivetrain {
         leftBack = new WPI_TalonSRX(1);
         rightFront = new WPI_TalonSRX(2);
         rightBack = new WPI_TalonSRX(3);
-
+        
+        //Sets the TalonSRX Motors to Brake Mode if true
+        leftFront.setNeutralMode(true);  
+        LeftBack.setNeutralMode(true);  
+        rightFront.setNeutralMode(true);  
+        rightBack.setNeutralMode(true);  
+        
         leftBack.follow(leftFront);
         rightBack.follow(rightFront);
         
