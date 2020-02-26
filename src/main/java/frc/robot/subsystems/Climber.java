@@ -12,6 +12,12 @@ public class Climber {
         actuator = new TalonSRX(7);
         extender = new TalonSRX(8);
         winch = new TalonSRX(9);
+        
+        //Sets TalonSRX to Brake Mode if true
+        actuator.setNeutralMode(true);
+        extender.setNeutralMode(true);
+        winch.setNeutralMode(true);
+        
     }
     public void actuation(){
         actuator.set(ControlMode.PercentOutput, 0.3);
