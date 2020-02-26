@@ -20,6 +20,9 @@ public class ControlPanel {
         actuator = new WPI_TalonSRX(0);
         spinMotor = new WPI_TalonSRX(0);
 
+        //Sets TalonSRX Motors to Brake Mode if true
+        actuator.setNeutralMode(true);  
+        spinMotor.setNeutralMode(true);      
     }
 
     public void stopAtColor(){
